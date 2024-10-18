@@ -1,26 +1,38 @@
 #include <JuceHeader.h>
 
-//--------------------------------------------------------------------------------------------------
-class HelloWorldProcessor : public juce::AudioProcessor
+struct HelloWorldProcessor : juce::AudioProcessor
 {
-public:
-    HelloWorldProcessor()
-        #if JucePlugin_Enable_ARA
-             : AudioProcessor (BusesProperties()
-                                .withInput  ("Input",  juce::AudioChannelSet::stereo())
-                                .withOutput ("Output", juce::AudioChannelSet::stereo()))
-        #else
-             : AudioProcessor (BusesProperties()
-                                .withInput  ("Input",  juce::AudioChannelSet::stereo())
-                                .withOutput ("Output", juce::AudioChannelSet::stereo()))
-        #endif
-    {
-    }
+    HelloWorldProcessor(): AudioProcessor (BusesProperties ()
+    #if ! JucePlugin_IsMidiEffect
+    #if ! JucePlugin_IsSynth
+        .withInput  ("Input",  juce::AudioChannelSet::stereo (), true)
+    #endif
+        .withOutput ("Output", juce::AudioChannelSet::stereo (), true)
+    #endif
+    ){}
 
     ~HelloWorldProcessor() override {}
 
-    void prepareToPlay (double sampleRate, int samplesPerBlock) override {}
+    void prepareToPlay (double, int) override {}
     void releaseResources() override {}
+
+    bool isBusesLayoutSupported (const BusesLayout& layouts) const override
+    {
+        #if JucePlugin_IsMidiEffect
+            juce::ignoreUnused (layouts);
+            return true;
+        #else
+            if (layouts.getMainOutputChannelSet () != juce::AudioChannelSet::mono ()
+            && layouts.getMainOutputChannelSet () != juce::AudioChannelSet::stereo ())
+                return false;
+
+        #if ! JucePlugin_IsSynth
+            if (layouts.getMainOutputChannelSet () != layouts.getMainInputChannelSet ())
+                return false;
+        #endif
+            return true;
+        #endif
+    }
 
     void processBlock (juce::AudioBuffer<float>& audio, juce::MidiBuffer&) override 
     {
@@ -32,9 +44,34 @@ public:
 
     const juce::String getName() const override { return "HelloWorld"; }
 
-    bool acceptsMidi() const override { return false; }
-    bool producesMidi() const override { return false; }
-    bool isMidiEffect() const override { return false; }
+    bool acceptsMidi () const override
+    {
+        #if JucePlugin_WantsMidiInput
+            return true;
+        #else
+            return false;
+        #endif
+    }
+
+    bool producesMidi () const override
+    {
+        #if JucePlugin_ProducesMidiOutput
+            return true;
+        #else
+            return false;
+        #endif
+    }
+
+    bool isMidiEffect () const override
+    {
+        #if JucePlugin_IsMidiEffect
+            return true;
+        #else
+            return false;
+        #endif
+    }
+    
+    
     double getTailLengthSeconds() const override { return 0.0; }
 
     int getNumPrograms() override { return 1; }
@@ -45,20 +82,23 @@ public:
 
     void getStateInformation (juce::MemoryBlock&) override {}
     void setStateInformation (const void*, int) override {}
-
-private:
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HelloWorldProcessor)
 };
 
-//--------------------------------------------------------------------------------------------------
-class HelloWorldEditor : public juce::AudioProcessorEditor
+struct HelloWorldEditor : juce::AudioProcessorEditor
 {
-public:
+    HelloWorldProcessor& processor;
+    juce::WebBrowserComponent browser
+    {
+        juce::WebBrowserComponent::Options {}
+        .withBackend (juce::WebBrowserComponent::Options::Backend::webview2)
+        .withWinWebView2Options (WebBrowserComponent::Options::WinWebView2{}.withUserDataFolder (File::getSpecialLocation (File::SpecialLocationType::tempDirectory)))
+    };
+
     HelloWorldEditor (HelloWorldProcessor& p)
         : AudioProcessorEditor (p), processor (p)
     {   
-        addAndMakeVisible (webBrowserComponent);
-        webBrowserComponent.goToURL ("https://google.com");
+        addAndMakeVisible (browser);
+        browser.goToURL ("https://google.com");
         setSize (500, 500);
     }
 
@@ -74,19 +114,8 @@ public:
 
     void resized () override 
     {
-        webBrowserComponent.setBounds (getLocalBounds ());
+        browser.setBounds (getLocalBounds ());
     }
-
-private:
-    HelloWorldProcessor& processor;
-    juce::WebBrowserComponent webBrowserComponent 
-    {
-        juce::WebBrowserComponent::Options {}
-        .withBackend (juce::WebBrowserComponent::Options::Backend::webview2)
-        .withWinWebView2Options (WebBrowserComponent::Options::WinWebView2{}.withUserDataFolder (File::getSpecialLocation (File::SpecialLocationType::tempDirectory)))
-    };
-
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (HelloWorldEditor)
 };
 
 juce::AudioProcessorEditor* HelloWorldProcessor::createEditor()
