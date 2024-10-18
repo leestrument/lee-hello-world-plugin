@@ -24,6 +24,12 @@ FetchContent_MakeAvailable(JUCE webview2)
 
 set(JUCE_WEBVIEW2_PACKAGE_LOCATION "${CMAKE_BINARY_DIR}/_deps")
 
+# Universal Binary for macOS
+set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64") 
+
+# x64 for Windows
+set(CMAKE_GENERATOR_PLATFORM "x64")
+
 juce_add_plugin(${PROJECT_NAME}
     PRODUCT_NAME ${PROJECT_NAME}
     BUNDLE_ID "dev.leestrument.plugin"
