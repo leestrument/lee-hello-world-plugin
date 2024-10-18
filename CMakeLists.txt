@@ -24,13 +24,13 @@ FetchContent_MakeAvailable(JUCE webview2)
 
 set(JUCE_WEBVIEW2_PACKAGE_LOCATION "${CMAKE_BINARY_DIR}/_deps")
 
-# Universal Binary for macOS
 set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 
-# Windows 빌드일 때만 CMAKE_GENERATOR_PLATFORM 설정
 if (WIN32)
     set(CMAKE_GENERATOR_PLATFORM "x64")
 endif()
+
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 juce_add_plugin(${PROJECT_NAME}
     PRODUCT_NAME ${PROJECT_NAME}
