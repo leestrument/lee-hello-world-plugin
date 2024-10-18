@@ -25,7 +25,8 @@ FetchContent_MakeAvailable(JUCE webview2)
 set(JUCE_WEBVIEW2_PACKAGE_LOCATION "${CMAKE_BINARY_DIR}/_deps")
 
 juce_add_plugin(${PROJECT_NAME}
-    BUNDLE_ID "dev.helloworld.plugin"
+    PRODUCT_NAME ${PROJECT_NAME}
+    BUNDLE_ID "dev.leestrument.plugin"
     COMPANY_NAME "LEESTRUMENT"
     IS_SYNTH TRUE
     NEEDS_MIDI_INPUT TRUE
@@ -35,7 +36,6 @@ juce_add_plugin(${PROJECT_NAME}
     PLUGIN_MANUFACTURER_CODE Lees # Corrected: Contains uppercase letters
     PLUGIN_CODE Lee1
     FORMATS AU VST3 Standalone
-    PRODUCT_NAME ${PROJECT_NAME}
     NEEDS_WEB_BROWSER TRUE
     NEEDS_WEBVIEW2 TRUE
 )
@@ -54,8 +54,4 @@ target_compile_definitions(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         juce::juce_audio_utils
-        juce::juce_gui_extra
-    PUBLIC
-        juce::juce_recommended_config_flags
-        juce::juce_recommended_lto_flags
-        juce::juce_recommended_warning_flags)
+)
