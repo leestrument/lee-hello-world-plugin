@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-set(PROJECT_NAME "HelloWorld")
-project(${PROJECT_NAME} VERSION 0.0.1)
+project(HelloWorld VERSION 0.0.1)
 
 include(FetchContent)
 
