@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(AUDIO_PLUGIN_EXAMPLE VERSION 0.0.1)
-
-set(PRODUCT_NAME "HelloWorld")
+set(PROJECT_NAME "HelloWorld")
+project(${PROJECT_NAME} VERSION 0.0.1)
 
 include(FetchContent)
 
@@ -18,40 +17,41 @@ FetchContent_Declare(
     DOWNLOAD_NO_PROGRESS TRUE
     SOURCE_DIR
     "${CMAKE_BINARY_DIR}/_deps/Microsoft.Web.WebView2"
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 
 FetchContent_MakeAvailable(JUCE webview2)
 
 set(JUCE_WEBVIEW2_PACKAGE_LOCATION "${CMAKE_BINARY_DIR}/_deps")
 
-juce_add_plugin(${PRODUCT_NAME}
+juce_add_plugin(${PROJECT_NAME}
     BUNDLE_ID "dev.helloworld.plugin"
-    COMPANY_NAME "HelloWorld"
+    COMPANY_NAME "LEESTRUMENT"
     IS_SYNTH TRUE
     NEEDS_MIDI_INPUT TRUE
     NEEDS_MIDI_OUTPUT TRUE
     AU_MAIN_TYPE kAudioUnitType_MIDIProcessor
     COPY_PLUGIN_AFTER_BUILD TRUE
-    PLUGIN_MANUFACTURER_CODE hlwr
-    PLUGIN_CODE Hlwr
+    PLUGIN_MANUFACTURER_CODE Lees # Corrected: Contains uppercase letters
+    PLUGIN_CODE Lee1
     FORMATS AU VST3 Standalone
-    PRODUCT_NAME ${PRODUCT_NAME}
+    PRODUCT_NAME ${PROJECT_NAME}
     NEEDS_WEB_BROWSER TRUE
     NEEDS_WEBVIEW2 TRUE
 )
 
-juce_generate_juce_header(${PRODUCT_NAME})
+juce_generate_juce_header(${PROJECT_NAME})
 
-target_sources(${PRODUCT_NAME} PRIVATE main.cpp)
+target_sources(${PROJECT_NAME} PRIVATE main.cpp)
 
-target_compile_definitions(${PRODUCT_NAME}
+target_compile_definitions(${PROJECT_NAME}
     PUBLIC
         JUCE_WEB_BROWSER=1
         JUCE_USE_WIN_WEBVIEW2_WITH_STATIC_LINKING=1
         JUCE_USE_CURL=0
         JUCE_VST3_CAN_REPLACE_VST2=0)
 
-target_link_libraries(${PRODUCT_NAME}
+target_link_libraries(${PROJECT_NAME}
     PRIVATE
         juce::juce_audio_utils
         juce::juce_gui_extra
