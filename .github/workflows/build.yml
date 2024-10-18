@@ -1,11 +1,31 @@
-name: Hello World Workflow
+name: Build Plugin
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  hello_world_job:
-    runs-on: ubuntu-latest
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [windows-latest]
 
     steps:
-    - name: Print Hello World
-      run: echo "Hello, World!"
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run CMake build
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release
+
+      - name: Upload .vst3 artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vst3-plugin
+          path: '**/*.vst3'
