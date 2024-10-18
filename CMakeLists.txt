@@ -25,10 +25,12 @@ FetchContent_MakeAvailable(JUCE webview2)
 set(JUCE_WEBVIEW2_PACKAGE_LOCATION "${CMAKE_BINARY_DIR}/_deps")
 
 # Universal Binary for macOS
-set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64") 
+set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 
-# x64 for Windows
-set(CMAKE_GENERATOR_PLATFORM "x64")
+# Windows 빌드일 때만 CMAKE_GENERATOR_PLATFORM 설정
+if (WIN32)
+    set(CMAKE_GENERATOR_PLATFORM "x64")
+endif()
 
 juce_add_plugin(${PROJECT_NAME}
     PRODUCT_NAME ${PROJECT_NAME}
@@ -39,7 +41,7 @@ juce_add_plugin(${PROJECT_NAME}
     NEEDS_MIDI_OUTPUT TRUE
     AU_MAIN_TYPE kAudioUnitType_MIDIProcessor
     COPY_PLUGIN_AFTER_BUILD TRUE
-    PLUGIN_MANUFACTURER_CODE Lees # Corrected: Contains uppercase letters
+    PLUGIN_MANUFACTURER_CODE Lees
     PLUGIN_CODE Lee1
     FORMATS AU VST3 Standalone
     NEEDS_WEB_BROWSER TRUE
