@@ -9,6 +9,7 @@ Please note that GitHub Actions is only free for public repositories, so you'll 
 < FL Studio is unable to scan my plugin. >
 
 There's an issue where the plugin is not being scanned in FL Studio, but this is no longer my fault.
-The most important thing is that FL Studio does not support placing VST3 files in a custom folder. 
-You must place the VST3 file in the designated location on either Mac or Windows. 
-Additionally, on Mac, you need to check "Verify plugins" and then click "Find Installed Plugins."
+
+1. The most important thing is that FL Studio does not support placing VST3 files in a custom folder. 
+   You must place the VST3 file in the designated location on either Mac or Windows. 
+2. You need to check "Verify plugins" and then click "Find Installed Plugins."
