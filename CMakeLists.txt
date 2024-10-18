@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.22)
 
 project(HelloWorld VERSION 0.0.1)
 
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 include(FetchContent)
 
 FetchContent_Declare(
@@ -29,8 +31,6 @@ set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 if (WIN32)
     set(CMAKE_GENERATOR_PLATFORM "x64")
 endif()
-
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 juce_add_plugin(${PROJECT_NAME}
     PRODUCT_NAME ${PROJECT_NAME}
