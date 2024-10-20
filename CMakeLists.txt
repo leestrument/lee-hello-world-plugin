@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.22)
 
 project(HelloWorld VERSION 0.0.1)
 
+# 이 라인이 없으면, Windows 의 DAW 에서 scan 되지 않습니다... 
+# 이 라인이 없어서, 몇몇 사람들의 컴퓨터에서 열자마자 crash 가 발생하였었습니다.
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 include(FetchContent)

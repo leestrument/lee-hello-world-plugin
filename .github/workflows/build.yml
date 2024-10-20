@@ -15,7 +15,7 @@ jobs:
     
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, macos-latest]
 
     steps:
       - name: Checkout repository
@@ -24,8 +24,16 @@ jobs:
       - name: Run CMake build
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release
 
-      - name: Upload .vst3 artifact
+      - name: Upload .vst3 artifact for Windows
+        if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v3
         with:
-          name: vst3-plugin
+          name: win_vst3
+          path: '**/*.vst3'
+
+      - name: Upload .vst3 artifact for macOS
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: mac_vst3
           path: '**/*.vst3'

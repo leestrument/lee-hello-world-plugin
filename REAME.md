@@ -14,5 +14,16 @@ There's an issue where the plugin is not being scanned in FL Studio, but this is
    You must place the VST3 file in the designated location on either Mac or Windows. 
 2. You need to check "Verify plugins" and then click "Find Installed Plugins."
 
+< Webview2 is not being used, and Internet Explorer continues to be used >
 
+In Windows, you must ensure that Microsoft Edge browser is installed.
+
+< It crashes as soon as it opens on the computer. >
+
+To enable static C++ runtime linking in the CMakeList, you must add set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>").
+
+https://discord.com/channels/382895736356077570/785560654484340747/1002350528682004571
+https://discord.com/channels/382895736356077570/785560654484340747/1001363437261172796
+https://discord.com/channels/382895736356077570/667185391006122015/1088872580825481307
 https://forum.juce.com/t/important-breaking-change-juce-will-now-use-dynamic-linking-for-the-windows-runtime-by-default/25276
+https://discord.com/channels/382895736356077570/382908951324262400/759062178522464258
