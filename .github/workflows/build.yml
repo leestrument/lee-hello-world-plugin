@@ -26,29 +26,37 @@ jobs:
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
           cmake --build build --config Release
 
-      # macOS에서 아티팩트 정리
-      - name: Organize artifacts (macOS)
-        if: matrix.os == 'macos-latest'
-        run: |
-          mkdir -p artifacts/mac_standalone
-          mkdir -p artifacts/mac_au
-          mkdir -p artifacts/mac_vst3
-          find . -name "*.app" -exec cp -R {} artifacts/mac_standalone/ \;
-          find . -name "*.component" -exec cp -R {} artifacts/mac_au/ \;
-          find . -name "*.vst3" -exec cp -R {} artifacts/mac_vst3/ \;
-
-      # Windows에서 아티팩트 정리
-      - name: Organize artifacts (Windows)
+      - name: Upload win_standalone artifact
         if: matrix.os == 'windows-latest'
-        shell: powershell
-        run: |
-          New-Item -ItemType Directory -Force -Path artifacts\win_standalone
-          New-Item -ItemType Directory -Force -Path artifacts\win_vst3
-          Get-ChildItem -Path . -Recurse -Include *.exe | Copy-Item -Destination artifacts\win_standalone -Force
-          Get-ChildItem -Path . -Recurse -Include *.vst3 | Copy-Item -Destination artifacts\win_vst3 -Recurse -Force
-
-      - name: Upload all artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: artifacts
-          path: artifacts/**
+          name: win_standalone
+          path: '**/*.exe'
+
+      - name: Upload win_vst3 artifact
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: win_vst3
+          path: '**/*.vst3'
+
+      - name: Upload mac_standalone artifact
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: mac_standalone
+          path: '**/*.app'
+
+      - name: Upload mac_au artifact
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: mac_au
+          path: '**/*.component'
+
+      - name: Upload mac_vst3 artifact
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: mac_vst3
+          path: '**/*.vst3'
