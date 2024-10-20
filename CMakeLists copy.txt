@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.22)
 
 project(HelloWorld VERSION 0.0.1)
 
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 include(FetchContent)
 
 FetchContent_Declare(
@@ -11,28 +13,24 @@ FetchContent_Declare(
     GIT_SHALLOW ON
 )
 
+FetchContent_Declare(
+    webview2
+    URL "https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2"
+    DOWNLOAD_NO_PROGRESS TRUE
+    SOURCE_DIR
+    "${CMAKE_BINARY_DIR}/_deps/Microsoft.Web.WebView2"
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+)
+
+FetchContent_MakeAvailable(JUCE webview2)
+
+set(JUCE_WEBVIEW2_PACKAGE_LOCATION "${CMAKE_BINARY_DIR}/_deps")
+
+set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
+
 if (WIN32)
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     set(CMAKE_GENERATOR_PLATFORM "x64")
-    
-    FetchContent_Declare(
-        webview2
-        URL "https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2"
-        DOWNLOAD_NO_PROGRESS TRUE
-        SOURCE_DIR "${CMAKE_BINARY_DIR}/_deps/Microsoft.Web.WebView2"
-        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-    )
-    
-    set(JUCE_WEBVIEW2_PACKAGE_LOCATION "${CMAKE_BINARY_DIR}/_deps")
-    
-    FetchContent_MakeAvailable(webview2)
-    
-elseif (APPLE)
-    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
-
 endif()
-
-FetchContent_MakeAvailable(JUCE)
 
 juce_add_plugin(${PROJECT_NAME}
     PRODUCT_NAME ${PROJECT_NAME}
