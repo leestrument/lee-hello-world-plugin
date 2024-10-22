@@ -35,6 +35,11 @@ if (WIN32)
     
 elseif (APPLE)
 
+    # mac 에서 최소 버전을 10.14 로 설정
+    # 이거 안하면 구형 intel mac 에서 scan 이 안됨.
+    # 이거 설정안하면 컴파일 한 컴퓨터의 버전으로 최소 버전이 설정됨.
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.14" CACHE STRING "Minimum OS X deployment version" FORCE) 
+
     # intel mac 과 새로운 mac 둘다 돌아가기위한 Universal Binary 를 만들기 위한 설정
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
 
