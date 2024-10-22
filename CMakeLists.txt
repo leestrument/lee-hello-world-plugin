@@ -65,6 +65,10 @@ juce_add_plugin(${PROJECT_NAME}
     NEEDS_WEBVIEW2 TRUE
 )
 
+juce_add_binary_data(${PROJECT_NAME}_BINARY_DATA
+    SOURCES "index.html"
+)
+
 juce_generate_juce_header(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE main.cpp)
@@ -81,7 +85,9 @@ target_compile_definitions(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
+        ${PROJECT_NAME}_BINARY_DATA
         juce::juce_audio_utils
+
     PUBLIC
         # 이거 없으면 mac 에서 binary size 가 2배로 증가함.. 8~9메가 나와야하는데, 16메가가 되버림.
         juce::juce_recommended_config_flags
