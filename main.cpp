@@ -1,4 +1,5 @@
 #include <JuceHeader.h>
+#include "BinaryData.h"
 
 struct HelloWorldProcessor : juce::AudioProcessor
 {
@@ -92,17 +93,21 @@ struct HelloWorldEditor : juce::AudioProcessorEditor
         juce::WebBrowserComponent::Options {}
         .withBackend (juce::WebBrowserComponent::Options::Backend::webview2)
         .withWinWebView2Options (WebBrowserComponent::Options::WinWebView2{}.withUserDataFolder (File::getSpecialLocation (File::SpecialLocationType::tempDirectory)))
+        .withResourceProvider ([this](const juce::String&) 
+        { 
+            const auto* start = reinterpret_cast<const std::byte*>(BinaryData::index_html);
+            const auto* end = start + BinaryData::index_htmlSize;
+            return juce::WebBrowserComponent::Resource { { start, end }, "text/html" };
+        })
     };
 
     HelloWorldEditor (HelloWorldProcessor& p)
         : AudioProcessorEditor (p), processor (p)
     {   
         addAndMakeVisible (browser);
-        browser.goToURL ("https://google.com");
+        browser.goToURL (juce::WebBrowserComponent::getResourceProviderRoot ());
         setSize (500, 500);
     }
-
-    ~HelloWorldEditor() override {}
 
     void paint (juce::Graphics& g) override
     {

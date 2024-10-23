@@ -58,16 +58,14 @@ juce_add_plugin(${PROJECT_NAME}
     COPY_PLUGIN_AFTER_BUILD TRUE
     PLUGIN_MANUFACTURER_CODE Lees
     PLUGIN_CODE Lee1
-    FORMATS AU VST3 Standalone
-    
+    FORMATS VST3
+
      # 윈도우 WebView2 를 사용하기 위한 설정
     NEEDS_WEB_BROWSER TRUE
     NEEDS_WEBVIEW2 TRUE
 )
 
-juce_add_binary_data(${PROJECT_NAME}_BINARY_DATA
-    SOURCES "index.html"
-)
+juce_add_binary_data(BinaryData SOURCES "index.html")
 
 juce_generate_juce_header(${PROJECT_NAME})
 
@@ -75,7 +73,6 @@ target_sources(${PROJECT_NAME} PRIVATE main.cpp)
 
 target_compile_definitions(${PROJECT_NAME}
     PUBLIC
-        
         # 윈도우 WebView2 를 사용하기 위한 설정
         JUCE_WEB_BROWSER=1
         JUCE_USE_WIN_WEBVIEW2_WITH_STATIC_LINKING=1
@@ -85,9 +82,8 @@ target_compile_definitions(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-        ${PROJECT_NAME}_BINARY_DATA
+        BinaryData
         juce::juce_audio_utils
-
     PUBLIC
         # 이거 없으면 mac 에서 binary size 가 2배로 증가함.. 8~9메가 나와야하는데, 16메가가 되버림.
         juce::juce_recommended_config_flags
