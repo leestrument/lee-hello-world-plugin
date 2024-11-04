@@ -1,6 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
-#include "./nlohmann/json.hpp"
+#include <nlohmann/json.hpp>
 #include <string>
 
 /* 
@@ -19,6 +19,12 @@ struct LeeJuceJSONFile
     LeeJuceJSONFile () = default;
 
     LeeJuceJSONFile (const juce::File& f) { setFile (f); }
+
+    void test ()
+    {   
+        setFile (juce::File::getSpecialLocation (juce::File::commonDocumentsDirectory).getChildFile ("test.json"));
+        setProperty ("test", juce::Random::getSystemRandom ().nextFloat ());
+    }
 
     void setProperty (const std::string& key, const nlohmann::json& value)
     {
@@ -59,6 +65,3 @@ struct LeeJuceJSONFile
         return juce::JSON::parse (json.dump ());
     }
 };
-
-// nlohmann::json::array();
-// juce::File::getSpecialLocation (juce::File::commonDocumentsDirectory).getChildFile ("test.json")

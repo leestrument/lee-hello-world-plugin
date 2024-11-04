@@ -47,6 +47,15 @@ endif()
 
 FetchContent_MakeAvailable(JUCE)
 
+# nlohmann/json 라이브러리 설정 (develop 브랜치 사용)
+FetchContent_Declare(
+    nlohmann_json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG develop  # develop 브랜치를 사용
+)
+
+FetchContent_MakeAvailable(nlohmann_json)
+
 juce_add_plugin(${PROJECT_NAME}
     PRODUCT_NAME ${PROJECT_NAME}
     BUNDLE_ID "dev.leestrument.plugin"
@@ -84,6 +93,7 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE
         BinaryData
         juce::juce_audio_utils
+        nlohmann_json::nlohmann_json  # nlohmann/json 라이브러리 추가
     PUBLIC
         # 이거 없으면 mac 에서 binary size 가 2배로 증가함.. 8~9메가 나와야하는데, 16메가가 되버림.
         juce::juce_recommended_config_flags

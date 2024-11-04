@@ -122,7 +122,7 @@ struct HelloWorldEditor : juce::AudioProcessorEditor
 
     void mouseDown (const juce::MouseEvent&) override 
     {
-        
+        processor.jsonFile.test ();
     }
 
     void resized () override 
