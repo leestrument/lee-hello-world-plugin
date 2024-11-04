@@ -47,11 +47,11 @@ endif()
 
 FetchContent_MakeAvailable(JUCE)
 
-# nlohmann/json 라이브러리 설정 (develop 브랜치 사용)
+# nlohmann/json 라이브러리 가져오기
 FetchContent_Declare(
     nlohmann_json
     GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG develop  # develop 브랜치를 사용
+    GIT_TAG develop 
 )
 
 FetchContent_MakeAvailable(nlohmann_json)
