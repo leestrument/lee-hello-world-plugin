@@ -58,7 +58,7 @@ juce_add_plugin(${PROJECT_NAME}
     COPY_PLUGIN_AFTER_BUILD TRUE
     PLUGIN_MANUFACTURER_CODE Lees
     PLUGIN_CODE Lee1
-    FORMATS VST3
+    FORMATS Standalone
 
      # 윈도우 WebView2 를 사용하기 위한 설정
     NEEDS_WEB_BROWSER TRUE

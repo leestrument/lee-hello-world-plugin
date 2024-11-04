@@ -1,8 +1,13 @@
 #include <JuceHeader.h>
 #include "BinaryData.h"
+#include "lee_juce_file_manager.h"
+#include "lee_juce_json_file.h"
 
 struct HelloWorldProcessor : juce::AudioProcessor
 {
+    LeeJuceFileManager fileManager {};
+    LeeJuceJSONFile jsonFile {};
+
     HelloWorldProcessor(): AudioProcessor (BusesProperties ()
     #if ! JucePlugin_IsMidiEffect
     #if ! JucePlugin_IsSynth
@@ -104,8 +109,8 @@ struct HelloWorldEditor : juce::AudioProcessorEditor
     HelloWorldEditor (HelloWorldProcessor& p)
         : AudioProcessorEditor (p), processor (p)
     {   
-        addAndMakeVisible (browser);
-        browser.goToURL (juce::WebBrowserComponent::getResourceProviderRoot ());
+        // addAndMakeVisible (browser);
+        // browser.goToURL (juce::WebBrowserComponent::getResourceProviderRoot ());
         setSize (500, 500);
     }
 
@@ -115,6 +120,11 @@ struct HelloWorldEditor : juce::AudioProcessorEditor
         g.setColour (juce::Colours::white);
         g.setFont (20.0f);
         g.drawText ("Hello World", getLocalBounds(), juce::Justification::centred, true);
+    }
+
+    void mouseDown (const juce::MouseEvent&) override 
+    {
+        // processor.fileManager.openLEESTRUMENTFolder ();
     }
 
     void resized () override 
