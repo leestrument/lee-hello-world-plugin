@@ -8,6 +8,7 @@
 
     juce::File 은 진짜 file 이 아니고, file 을 가리키는 포인터일 뿐임.
     실제 파일이 생성되는 경우는 file 이 제대로된 경로를 가졌고, replaceWithText 를 호출했을 때임.
+    이 클래스는 컴퓨터 폴더에 있는 json 파일과 연결시키고, juce 에서 이를 로딩,수정하기위한 클래스임.
 */
 
 struct LeeJuceJSONFile

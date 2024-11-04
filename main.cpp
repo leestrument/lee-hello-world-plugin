@@ -1,11 +1,9 @@
 #include <JuceHeader.h>
 #include "BinaryData.h"
-#include "lee_juce_file_manager.h"
 #include "lee_juce_json_file.h"
 
 struct HelloWorldProcessor : juce::AudioProcessor
 {
-    LeeJuceFileManager fileManager {};
     LeeJuceJSONFile jsonFile {};
 
     HelloWorldProcessor(): AudioProcessor (BusesProperties ()
@@ -124,7 +122,7 @@ struct HelloWorldEditor : juce::AudioProcessorEditor
 
     void mouseDown (const juce::MouseEvent&) override 
     {
-        // processor.fileManager.openLEESTRUMENTFolder ();
+        
     }
 
     void resized () override 
