@@ -1,3 +1,8 @@
+< 목적 >
+이 Hello Worl 앱은 Standalone 으로,
+lee-juce 에 코드를 올리기전에, 먼저 프로토타이핑해보는 장소입니다.
+dsp 보다는 native 코드와 관련된 것들이 대부분일것입니다. 파일시스템, 드래그엔드랍등..
+
 
 < How to build ? >
 
