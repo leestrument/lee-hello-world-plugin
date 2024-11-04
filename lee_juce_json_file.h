@@ -3,7 +3,9 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
-/* 
+/*
+    CMakeLists 에 nlohmann_json 이 반드시 추가되어야합니다. 파일을 열어 확인하세요.
+
     https://forum.juce.com/t/construct-var-programmatically-and-convert-to-json/7958/6
 
     juce::File 은 진짜 file 이 아니고, file 을 가리키는 포인터일 뿐임.
